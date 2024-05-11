@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
   <style>
-    @layers reset, theme, navigation, template;
+    @layer reset, theme, navigation, template;
 
     @layer theme {
       :root {
@@ -18,6 +18,11 @@
     }
 
     @layer navigation {
+      :link {
+        min-block-size: 24px;
+        display: inline-block;
+        min-inline-size: 24px;
+      }
 
       /* Hide sections that are not the target, except the first section if there are no target */
       [slot="main"]:not(:target, :has(:target), [slot="main"]:first-of-type),
