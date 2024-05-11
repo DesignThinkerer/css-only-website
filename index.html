@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- 
+
+https://javascript.info/slots-composition
+https://coryrylan.com/blog/accessibility-with-id-referencing-and-shadow-dom
+
+Using a template, we can render the html nodes in a semantic configuration, regardless of the actual order in the source code wich is usefull for css selectors  -->
+
+<template shadowrootmode="open">
+    <style>
+      @import "style.css" layer(template);
+    </style>
+    <nav aria-label="Main nav">
+      <slot name="nav"></slot>
+    </nav>
+    <main>
+      <slot name="main"></slot>
+    </main>
+  </template>
+  
+  <section slot="main" id="system-color">
+    <aside>
+      <a href="https://www.w3.org/TR/css-color-4/#css-system-colors">CSS Color Module Level 4</a>
+    </aside>
+    <dl>
+      <dt>AccentColor</dt>
+      <dd style="--color:AccentColor">Background of accented user interface controls</dd>
+  
+      <dt>AccentColorText</dt>
+      <dd style="--color:AccentColorText">Text of accented user interface controls</dd>
+  
+      <dt>ActiveText</dt>
+      <dd style="--color:ActiveText">Text of active links</dd>
+  
+      <dt>ButtonBorder</dt>
+      <dd style="--color:ButtonBorder">Base border color of controls</dd>
+  
+      <dt>ButtonFace</dt>
+      <dd style="--color:ButtonFace">Background color of controls</dd>
+  
+      <dt>ButtonText</dt>
+      <dd style="--color:ButtonText">Text color of controls</dd>
+  
+      <dt>Canvas</dt>
+      <dd style="--color:Canvas">Background of application content or documents</dd>
+  
+      <dt>CanvasText</dt>
+      <dd style="--color:CanvasText">Text color in application content or documents</dd>
+  
+      <dt>Field</dt>
+      <dd style="--color:Field">Background of input fields</dd>
+  
+      <dt>FieldText</dt>
+      <dd style="--color:FieldText">Text in input fields</dd>
+  
+      <dt>GrayText</dt>
+      <dd style="--color:GrayText">Text color for disabled items (e.g. a disabled control)</dd>
+  
+      <dt>Highlight</dt>
+      <dd style="--color:Highlight">Background of selected items</dd>
+  
+      <dt>HighlightText</dt>
+      <dd style="--color:HighlightText">Text color of selected items</dd>
+  
+      <dt>LinkText</dt>
+      <dd style="--color:LinkText">Text of non-active, non-visited links</dd>
+  
+      <dt>Mark</dt>
+      <dd style="--color:Mark">Background of text that has been specially marked (such as by the HTML mark element)</dd>
+  
+      <dt>MarkText</dt>
+      <dd style="--color:MarkText">Text that has been specially marked (such as by the HTML mark element)</dd>
+  
+      <dt>SelectedItem</dt>
+      <dd style="--color:SelectedItem">Background of selected items, for example, a selected checkbox</dd>
+  
+      <dt>SelectedItemText</dt>
+      <dd style="--color:SelectedItemText">Text of selected items</dd>
+  
+      <dt>VisitedText</dt>
+      <dd style="--color:VisitedText">Text of visited links</dd>
+    </dl>
+  </section>
+  <a slot="nav" href="#system-color" tabindex="1">system-color</a>
+  
+  <section slot="main" id="generic-font">
+    <aside>
+      <a href="https://www.w3.org/TR/css-fonts-4/#generic-font-families">CSS Fonts Module Level 4</a>
+    </aside>
+    <dl>
+      <dt>serif</dt>
+      <dd style="--font-family:serif">Serif fonts represent glyphs that have finishing strokes, flared or tapering ends, or have actual serifed endings (including slab serifs).</dd>
+  
+      <dt>sans-serif</dt>
+      <dd style="--font-family:sans-serif">Glyphs in sans-serif fonts, as the term is used in CSS, are generally low contrast (vertical and horizontal stems have the close to the same thickness) and have stroke endings that are plain (without any flaring, cross stroke, or other ornamentation).
+      </dd>
+  
+      <dt>cursive</dt>
+      <dd style="--font-family:cursive">Glyphs in cursive fonts generally use a script style, and the result looks more like handwritten pen or brush writing than printed letterwork.</dd>
+  
+      <dt>fantasy</dt>
+      <dd style="--font-family:fantasy">Fantasy fonts are primarily decorative or expressive fonts that contain decorative or expressive representations of characters.</dd>
+  
+      <dt>monospace</dt>
+      <dd style="--font-family:monospace">The sole criterion of a monospace font is that all glyphs have the same fixed width. This is often used to render samples of computer code.
+      </dd>
+  
+      <dt>system-ui</dt>
+      <dd style="--font-family:system-ui">This generic font family lets text render with the default user interface font on the platform on which the UA is running. </dd>
+  
+      <dt>math</dt>
+      <dd style="--font-family:math">This font family is intended for use with mathematical expressions.
+      </dd>
+  
+      <dt>generic(fangsong)</dt>
+      <dd style="--font-family:generic(fangsong)">This font family is used for Fang Song (仿宋) typefaces in Chinese.</dd>
+  
+      <dt>generic(kai)</dt>
+      <dd style="--font-family:generic(kai)">This font family is used in Simplified & Traditional Chinese.</dd>
+  
+      <dt>generic(nastaliq)</dt>
+      <dd style="--font-family:generic(nastaliq)">This font family is the standard way of writing Urdu and Kashmiri, and is also often a preferred style for Persian and other language text, especially in literary genres such as poetry.</dd>
+  
+      <dt>ui-serif</dt>
+      <dd style="--font-family:ui-serif">This font family is used for the serif variant of the system’s user interface.</dd>
+  
+      <dt>ui-sans-serif</dt>
+      <dd style="--font-family:ui-sans-serif">This font family is used for the sans-serif variant of the system’s user interface.</dd>
+      <dt>ui-monospace</dt>
+      <dd style="--font-family:ui-monospace">This font family is used for the monospaced variant of the system’s user interface.</dd>
+  
+      <dt>ui-rounded</dt>
+      <dd style="--font-family:ui-rounded">This font family is used for the rounded variant of the system’s user interface.</dd>
+      <h2 id="system-family-name"><a href="#system-family-name">🔗</a>system-family-name</h2>
+      <p>
+        A locally installed system font, whose use is subject to certain constraints. In particular, it may not be used with the font-family property, but can be used with the font shorthand. The following values refer to system fonts:
+      </p>
+      <dt>caption</dt>
+      <dd style="--font:caption">The font used for captioned controls (e.g., buttons, drop-downs, etc.).</dd>
+      <dt>icon</dt>
+      <dd style="--font:icon">The font used to label icons.</dd>
+      <dt>menu</dt>
+      <dd style="--font:menu">The font used in menus (e.g., dropdown menus and menu lists).</dd>
+      <dt>message-box</dt>
+      <dd style="--font:message-box">The font used in dialog boxes.</dd>
+      <dt>small-caption</dt>
+      <dd style="--font:small-caption">The font used for labeling small controls.</dd>
+      <dt>status-bar</dt>
+      <dd style="--font:status-bar">The font used in window status bars.</dd>
+    </dl>
+  </section>
+  <a slot="nav" href="#generic-font" tabindex="1">generic-font</a>
+</body>
+</html>
