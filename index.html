@@ -4,163 +4,71 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Demo of advanced css and html techniques to attempt to create a javascript-less website.">
-
+  <meta name="description"
+    content="Demo of advanced css and html techniques to attempt to create a javascript-less website.">
   <title>Document</title>
-  <style>
-    @layer reset, theme, navigation, template;
-
-    @layer theme {
-      :root {
-        font-family: system-ui;
-        color-scheme: light;
-        --accent-color: light-dark(slategray, orange);
-        --outline-size: 1px;
-      }
-    }
-
-    @layer navigation {
-      :link {
-        min-block-size: 24px;
-        display: inline-block;
-        min-inline-size: 24px;
-      }
-
-      /* Hide sections that are not the target, except the first section if there are no target */
-      [slot="main"]:not(:target, :has(:target), [slot="main"]:first-of-type),
-      :root:has(:target) [slot="main"]:not(:target, :has(:target)) {
-        display: none;
-      }
-
-      /* Give a style to the matching nav element to indicate where we are */
-      [slot="main"]:is(:target, :has(:target))+ :link,
-      :root:not(:has(:target)) [slot="nav"]:first-of-type {
-        font-weight: bold;
-      }
-
-      /* Default nav style */
-      [slot="nav"] {
-        text-decoration: none;
-        color: currentColor;
-        padding: 1rem;
-
-        &:hover {
-          text-decoration: underline;
-        }
-
-        &:focus-within:not(:active) {
-          color: SelectedItem;
-          outline: solid var(--outline-size) SelectedItem;
-        }
-      }
-
-      [slot="main"] {
-        scroll-margin-block-start: 2.6lh;
-      }
-    }
-
-    @layer reset {
-      body {
-        margin: 0;
-      }
-    }
-
-    dl {
-      padding-inline-start: 1ch;
-    }
-
-    dt {
-      font-weight: bold;
-      font-family: monospace;
-    }
-
-    dd {
-      font: var(--font, inherit);
-      font-family: var(--font-family, inherit);
-
-      padding-block: 1ch;
-      display: flex;
-      align-content: center;
-      gap: 0.5ch;
-
-      #system-color &:before {
-        content: "";
-        display: inline-block;
-        height: 1lh;
-        background: var(--color);
-        aspect-ratio: 1;
-        outline: solid 1px;
-      }
-    }
-
-
-    /* @layer template{
-    :host {
-        height: 100vh;
-        display: grid;
-        grid-template-rows: max-content 1fr;
-  
-        & nav {
-          top: 0;
-          position: sticky;
-          display: flex;
-          flex-wrap: wrap;
-          gap: 1ch;
-          justify-content: center;
-          border-bottom: solid var(--outline-size) var(--accent-color);
-          background: Canvas;
-          color: CanvasText;
-        }
-      }
-} */
-  </style>
-  <!-- <link rel="stylesheet" href="style.css"> -->
+  <!-- use preconnect if necessary -->
+  <!-- <link rel="preload stylesheet" href="style.css" as="style" fetchpriority="high" /> -->
+  <link rel="stylesheet" href="style.css"/>
 </head>
 
 <body>
-  <!-- 
-
+<!-- 
 https://javascript.info/slots-composition
 https://coryrylan.com/blog/accessibility-with-id-referencing-and-shadow-dom
-
-Using a template, we can render the html nodes in a semantic configuration, regardless of the actual order in the source code wich is usefull for css selectors  -->
-
+-->
   <template shadowrootmode="open">
     <style>
-      /* @import "style.css" layer(template); */
-      @layer template {
-        :host {
-          height: 100vh;
-          display: grid;
-          grid-template-rows: max-content 1fr;
-
-          & nav {
-            top: 0;
-            position: sticky;
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1ch;
-            justify-content: center;
-            border-bottom: solid var(--outline-size) var(--accent-color);
-            background: Canvas;
-            color: CanvasText;
-          }
-        }
-      }
+      @import "style.css" layer(template);
     </style>
-    <nav aria-label="Main nav">
-      <slot name="nav"></slot>
-    </nav>
+    <header>
+      <search>
+        <form>
+            <label>
+                <!-- https://www.aditus.io/patterns/breadcrumbs/ -->
+                <nav aria-label="breadcrumbs">
+                    <ol>
+                        <li>
+                            <a href="#system-color" aria-current="location">system-color</a>
+                            <span aria-hidden="true">/</span>
+                        </li>
+                    </ol>
+                </nav></label>
+            <input type="search" name="q" />
+            <button type="submit">&#x1F50E;&#xFE0E;</button>
+        </form>
+    </search>
+      <nav aria-label="Main nav">
+        <slot name="nav"></slot>
+      </nav>
+      <menu>
+        <!-- dark and light switch, hide if js is disabled -->
+        <input type="checkbox" id="theme-switch" aria-label="Toggle dark mode">
+        <label for="theme-switch" aria-hidden="true">🌙</label>
+      </menu>
+    </header>
     <main>
       <slot name="main"></slot>
     </main>
+    <footer></footer>
   </template>
-
   <section slot="main" id="system-color">
-    <aside>
+    <p>
       <a href="https://www.w3.org/TR/css-color-4/#css-system-colors">CSS Color Module Level 4</a>
-    </aside>
+    </p>
     <dl>
+      <style>
+        @scope {
+          dd:before {
+            content: "";
+            display: inline-block;
+            height: 1lh;
+            background: var(--color);
+            aspect-ratio: 1;
+            outline: solid 1px;
+          }
+        }
+      </style>
       <dt>AccentColor</dt>
       <dd style="--color:AccentColor">Background of accented user interface controls</dd>
 
@@ -222,10 +130,18 @@ Using a template, we can render the html nodes in a semantic configuration, rega
   <a slot="nav" href="#system-color">system-color</a>
 
   <section slot="main" id="generic-font">
-    <aside>
+    <p>
       <a href="https://www.w3.org/TR/css-fonts-4/#generic-font-families">CSS Fonts Module Level 4</a>
-    </aside>
+    </p>
     <dl>
+      <style>
+        @scope {
+          dd {
+            font: var(--font, inherit);
+            font-family: var(--font-family, inherit);
+          }
+        }
+      </style>
       <dt>serif</dt>
       <dd style="--font-family:serif">Serif fonts represent glyphs that have finishing strokes, flared or tapering ends,
         or have actual serifed endings (including slab serifs).</dd>

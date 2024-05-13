@@ -1,0 +1,98 @@
+@layer default, theme, navigation, template;
+
+@layer default {
+    :root{
+        /* https://www.w3.org/WAI/WCAG22/Understanding/target-size-minimum.html */
+        --touch-target-size:24px;
+    }
+    body {
+      margin: 0;
+    }
+    :link {
+        display: inline-block;
+        min-block-size: var(--touch-target-size);
+        min-inline-size: var(--touch-target-size);
+      }
+  }
+
+@layer theme {
+  :root {
+    font-display: swap;
+    font-family: system-ui;
+    color-scheme: light;
+    --accent-color: light-dark(slategray, orange);
+    --border-size: 1px;
+    --nav-padding: 1rem;
+  }
+
+  dl {
+    padding-inline-start: 1ch;
+  }
+  
+  dt {
+    font-weight: bold;
+    font-family: monospace;
+  }
+  
+  dd {
+    padding-block: 1ch;
+    display: flex;
+    align-content: center;
+    gap: 0.5ch;
+  }
+}
+
+
+@layer template {
+    header{
+        align-items: center;
+        top: 0;
+        position: sticky;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        border-bottom: solid var(--border-size) var(--accent-color);
+        background: Canvas;
+        color: CanvasText;
+        justify-content: space-evenly;
+        [type="search"]{
+            height:fit-content;
+        }
+    }
+  }
+
+  @layer navigation {
+  
+    /* Hide sections that are not the target, except the first section if there are no target */
+    [slot="main"]:not(:target, :has(:target), [slot="main"]:first-of-type),
+    :root:has(:target) [slot="main"]:not(:target, :has(:target)) {
+      display: none;
+    }
+  
+    /* Give a style to the matching nav element to indicate where we are */
+    [slot="main"]:is(:target, :has(:target))+ :link,
+    :root:not(:has(:target)) [slot="nav"]:first-of-type {
+      font-weight: bold;
+    }
+  
+    /* Default nav style */
+    [slot="nav"] {
+      text-decoration: none;
+      color: currentColor;
+      padding: var(--nav-padding);
+  
+      &:hover {
+        text-decoration: underline;
+      }
+  
+      &:focus-within:not(:active) {
+        color: SelectedItem;
+        outline: solid var(--border-size) SelectedItem;
+      }
+    }
+  
+    [slot="main"] {
+        --header-size:calc(var(--touch-target-size) + 2*var(--nav-padding) + var(--border-size));
+        scroll-margin-block-start: calc(var(--header-size) + 1rem );
+    }
+  }
